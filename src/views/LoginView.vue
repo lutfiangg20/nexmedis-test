@@ -15,9 +15,9 @@ const handleSubmit = async () => {
 }
 </script>
 <template>
-  <div class="flex flex-col md:flex-row justify-around h-screen w-full">
-    <div class="flex flex-col bg-blue-500 px-5 w-full h-full text-white">
-      <h1 class="text-3xl p-5">Nexmedis</h1>
+  <div class="flex flex-col md:flex-row justify-around md:h-screen w-full">
+    <div class="flex flex-col bg-blue-500 p-5 w-full h-full text-white">
+      <h1 class="text-3xl">Nexmedis</h1>
       <div class="flex flex-col justify-center h-full space-y-5">
         <h1 class="text-4xl font-bold">Healthcare reimagined for the digital age</h1>
         <p class="opacity-90">
