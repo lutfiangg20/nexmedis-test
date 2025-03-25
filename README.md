@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# nexmedis-test
-=======
 # nexmedis-test
 
 This template should help get you started developing with Vue 3 in Vite.
@@ -40,4 +37,5 @@ bun run build
 ```sh
 bun lint
 ```
+
 >>>>>>> cec3fa4 (Inital commit)
