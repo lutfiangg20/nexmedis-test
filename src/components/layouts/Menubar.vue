@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { useSidebarStore } from '@/stores/sidebar'
 import { menuList } from './menuList'
+
 const store = useSidebarStore()
 </script>
 <template>
   <aside
     :class="[
-      'hidden md:block border-r border-gray-200 transition-all overflow-hidden',
-      store.isOpen ? 'translate-x-0 w-60' : 'translate-x-[-100%] w-0',
+      'md:hidden absolute z-20 bg-white h-screen border-r border-gray-200 transition-all overflow-hidden',
+      store.isOpen ? 'translate-x-0 w-full' : 'translate-x-[-100%] w-0',
     ]"
   >
     <div class="px-5 py-4 h-16 border-b border-gray-200">
@@ -20,7 +21,7 @@ const store = useSidebarStore()
         :key="index"
       >
         <component :is="item.icon" :size="20"></component>
-        <router-link :to="item.url">{{ item.name }}</router-link>
+        <router-link @click="store.toggle" :to="item.url">{{ item.name }}</router-link>
       </li>
     </ul>
   </aside>
