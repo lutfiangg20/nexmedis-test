@@ -12,10 +12,16 @@ const reqres = new Reqres();
 const userStore = useUserStore();
 const users = ref({} as UsersResponse);
 const formIsOpen = ref(false);
+const selectedId = ref(0);
 const formData = reactive({
   name: "",
   job: "",
 });
+const formUpdate = reactive({
+  name: "",
+  job: "",
+});
+const dialog = ref<HTMLDialogElement | null>(null);
 
 const getData = async (page: number) => {
   const response = await getAllUsers(page);
@@ -44,10 +50,16 @@ const handlePrev = async () => {
   await getData(users.value.page - 1);
 };
 
+const handleOpenModal = (id: number) => {
+  formUpdate.name = users.value.data.find((user) => user.id === id)?.first_name || "";
+  formUpdate.job = users.value.data.find((user) => user.id === id)?.last_name || "";
+  selectedId.value = id;
+  dialog.value?.showModal();
+};
+
 const handleDelete = async (id: number) => {
   const response = await reqres.delete(`/users/${id}`);
-  console.log("response delte", response);
-  if (!response.ok) return;
+  console.log("response delete", response);
   await getData(users.value.page);
 };
 
@@ -58,8 +70,44 @@ const handleSubmit = async () => {
   await getData(users.value.page);
   formIsOpen.value = false;
 };
+
+const handleUpdate = async () => {
+  const response = await reqres.put(`/users/${selectedId.value}`, formUpdate);
+  const result = await response.json();
+  console.log("result", result);
+  await getData(users.value.page);
+  dialog.value?.close();
+  selectedId.value = 0;
+};
+
+const handleOutsideClick = (event: MouseEvent) => {
+  if (dialog.value && event.target === dialog.value) {
+    dialog.value.close();
+  }
+};
 </script>
 <template>
+  <dialog @click="handleOutsideClick" class="mx-auto my-auto rounded-xl w-1/3 h-1/3" ref="dialog">
+    <form @submit.prevent="handleUpdate" class="space-y-4 p-10 w-full h-full">
+      <FormInput
+        v-model="formUpdate.name"
+        label="Name"
+        placeholder="Input Name..."
+        type="text"
+        class="w-full"
+      />
+      <FormInput
+        v-model="formUpdate.job"
+        label="Job"
+        placeholder="Input Job..."
+        type="text"
+        class="w-full"
+      />
+      <div class="flex justify-end">
+        <button class="bg-green-500 p-2 rounded-md text-white" type="submit">Submit</button>
+      </div>
+    </form>
+  </dialog>
   <div class="border border-gray-200 rounded-md p-4 space-y-2 overflow-auto">
     <div class="flex justify-between">
       <h1 class="font-semibold">List Users</h1>
@@ -110,7 +158,7 @@ const handleSubmit = async () => {
           <td class="p-2">{{ user.email }}</td>
           <td class="p-2">
             <div class="flex justify-center items-center gap-2">
-              <UpdateButton />
+              <UpdateButton @click="handleOpenModal(user.id)" />
               <DeleteButton @click="handleDelete(user.id)" />
             </div>
           </td>

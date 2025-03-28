@@ -4,7 +4,9 @@ import { useResourceStore } from "@/stores/resource";
 import { onMounted, ref } from "vue";
 import UpdateButton from "../UpdateButton.vue";
 import DeleteButton from "../DeleteButton.vue";
+import { Reqres } from "@/utils/reqres";
 
+const reqres = new Reqres();
 const resourceStore = useResourceStore();
 const resource = ref({} as ResponseResource);
 
@@ -46,7 +48,6 @@ const handlePrev = async () => {
           <th class="p-2">Pantone</th>
           <th class="p-2">Color</th>
           <th class="p-2">Year</th>
-          <th class="p-2 text-center">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -60,12 +61,6 @@ const handlePrev = async () => {
             </button>
           </td>
           <td class="p-2">{{ item.year }}</td>
-          <td class="p-2">
-            <div class="flex justify-center items-center gap-2">
-              <UpdateButton />
-              <DeleteButton />
-            </div>
-          </td>
         </tr>
       </tbody>
     </table>
