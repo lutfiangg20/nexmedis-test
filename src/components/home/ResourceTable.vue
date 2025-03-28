@@ -2,11 +2,7 @@
 import { getAllResource, type ResponseResource } from "@/api/resource";
 import { useResourceStore } from "@/stores/resource";
 import { onMounted, ref } from "vue";
-import UpdateButton from "../UpdateButton.vue";
-import DeleteButton from "../DeleteButton.vue";
-import { Reqres } from "@/utils/reqres";
 
-const reqres = new Reqres();
 const resourceStore = useResourceStore();
 const resource = ref({} as ResponseResource);
 
