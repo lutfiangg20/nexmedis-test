@@ -2,10 +2,12 @@
 import FormInput from "@/components/FormInput.vue";
 import MainLayout from "@/components/layouts/MainLayout.vue";
 import Card from "@/components/Card.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { getUserbyId, type UserData } from "@/api/user";
+import { Reqres } from "@/utils/reqres";
 
+const reqres = new Reqres();
 const data = ref({
   id: 0,
   first_name: "",
@@ -13,13 +15,31 @@ const data = ref({
   email: "",
   avatar: "",
 } as UserData);
+const formData = reactive({
+  first_name: "",
+  last_name: "",
+  email: "",
+});
 
 onMounted(async () => {
   const response = await getUserbyId(4);
   data.value = response.data;
+  formData.first_name = response.data.first_name;
+  formData.last_name = response.data.last_name;
+  formData.email = response.data.email;
 });
 
-const handleUpdate = async () => {};
+const handleUpdate = async () => {
+  const response = await reqres.put(`/users/${data.value.id}`, formData);
+  const result = (await response.json()) as UserData;
+  console.log("result", result);
+  data.value.first_name = result.first_name;
+  data.value.last_name = result.last_name;
+  data.value.email = result.email;
+  formData.first_name = result.first_name;
+  formData.last_name = result.last_name;
+  formData.email = result.email;
+};
 </script>
 <template>
   <MainLayout title="Profile" description="Manage your profile settings and account preferences.">
@@ -37,17 +57,22 @@ const handleUpdate = async () => {};
             <FormInput
               label="First Name"
               placeholder="First Name"
-              v-model="data.first_name"
+              v-model="formData.first_name"
               type="text"
             />
             <FormInput
               label="Last Name"
               placeholder="Last Name"
-              v-model="data.last_name"
+              v-model="formData.last_name"
               type="text"
             />
           </div>
-          <FormInput label="Email" placeholder="you@example.com" v-model="data.email" type="text" />
+          <FormInput
+            label="Email"
+            placeholder="you@example.com"
+            v-model="formData.email"
+            type="text"
+          />
           <div class="flex justify-end">
             <CustomButton>Save Change</CustomButton>
           </div>
