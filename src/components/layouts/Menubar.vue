@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useSidebarStore } from '@/stores/sidebar'
-import { menuList } from './menuList'
+import { useSidebarStore } from "@/stores/sidebar";
+import { menuList } from "./menuList";
 
-const store = useSidebarStore()
+const store = useSidebarStore();
 </script>
 <template>
   <aside
     :class="[
-      'md:hidden absolute z-20 bg-white h-screen border-r border-gray-200 transition-all overflow-hidden',
+      'md:hidden  z-20 bg-white fixed min-h-screen border-r border-gray-200 transition-all overflow-hidden',
       store.isOpen ? 'translate-x-0 w-full' : 'translate-x-[-100%] w-0',
     ]"
   >
