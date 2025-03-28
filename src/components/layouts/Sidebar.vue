@@ -14,13 +14,14 @@ const store = useSidebarStore()
       <h1 class="text-2xl font-bold">Dashboard</h1>
     </div>
     <ul class="px-5">
-      <li
-        class="flex items-center gap-2 cursor-pointer hover:bg-gray-200 rounded-md p-2"
-        v-for="(item, index) in menuList"
-        :key="index"
-      >
-        <component :is="item.icon" :size="20"></component>
-        <router-link :to="item.url">{{ item.name }}</router-link>
+      <li class="" v-for="(item, index) in menuList" :key="index">
+        <router-link
+          class="flex items-center gap-2 cursor-pointer hover:bg-gray-200 rounded-md p-2 w-full"
+          :to="item.url"
+        >
+          <component :is="item.icon" :size="20"></component>
+          {{ item.name }}</router-link
+        >
       </li>
     </ul>
   </aside>

@@ -6,6 +6,8 @@ import Menubar from './Menubar.vue'
 import { Columns2, Menu } from 'lucide-vue-next'
 import { useSidebarStore } from '@/stores/sidebar'
 
+defineProps<{ title?: string; description?: string }>()
+
 const account = useAccountStore()
 const sidebar = useSidebarStore()
 </script>
@@ -24,6 +26,8 @@ const sidebar = useSidebarStore()
         </div>
       </header>
       <div class="p-5 w-full min-h-screen">
+        <h1 class="text-2xl font-bold">{{ title }}</h1>
+        <p class="text text-gray-500 mb-5">{{ description }}</p>
         <slot />
       </div>
     </div>
